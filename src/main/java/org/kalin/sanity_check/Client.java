@@ -33,6 +33,21 @@ public class Client {
         httpClient.close();
     }
 
+    public Response sendSaleTransaction(Request request) throws Exception {
+
+        request.setTransactionType(TransactionType.Sale);
+
+        return this.sendRequest(request);
+    }
+
+    public Response sendVoidTransaction(Request request) throws Exception {
+        if (request.getTransactionType() != TransactionType.Void || request.getReferenceId() == null) {
+            return null;
+        }
+
+        return this.sendRequest(request);
+    }
+
     private Response sendRequest(Request request) throws Exception {
         HttpPost post = new HttpPost(new URI("http", null, "localhost", 3001, endPoint, null, null));
 
